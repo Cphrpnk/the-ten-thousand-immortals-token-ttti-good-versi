@@ -1,0 +1,680 @@
+type WithdrawReserveResult = 
+ variant {
+   amountExceedsExcess: record {withdrawableE8s: nat;};
+   busy;
+   ledgerError: text;
+   noExcess;
+   ok: nat;
+   topUpPendingNotify;
+   treasuryNotConfigured;
+ };
+type Value__2 = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type Value__1 = 
+ variant {
+   Array: vec Value__1;
+   Blob: blob;
+   Int: int;
+   Map: vec record {
+              text;
+              Value__1;
+            };
+   Nat: nat;
+   Text: text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type TreasuryConfigResult = 
+ variant {
+   Err: text;
+   Ok: TreasuryConfig;
+ };
+type TreasuryConfig = record {icpAccount: Account;};
+type TransformationOutput = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type TransformationInput = 
+ record {
+   context: blob;
+   response: HttpRequestResult;
+ };
+type TransferResult = 
+ variant {
+   Err: TransferError;
+   Ok: nat;
+ };
+type TransferFromResult = 
+ variant {
+   Err: TransferFromError;
+   Ok: nat;
+ };
+type TransferFromError = 
+ variant {
+   BadBurn: record {min_burn_amount: nat;};
+   BadFee: record {expected_fee: nat;};
+   CreatedInFuture: record {ledger_time: Timestamp__1;};
+   Duplicate: record {duplicate_of: nat;};
+   GenericError: record {
+                   error_code: nat;
+                   message: text;
+                 };
+   InsufficientAllowance: record {allowance: nat;};
+   InsufficientFunds: record {balance: nat;};
+   TemporarilyUnavailable;
+   TooOld;
+ };
+type TransferFromArgs = 
+ record {
+   amount: nat;
+   created_at_time: opt Timestamp__1;
+   fee: opt nat;
+   from: Account;
+   memo: opt blob;
+   spender_subaccount: opt Subaccount;
+   to: Account;
+ };
+type TransferError = 
+ variant {
+   BadBurn: record {min_burn_amount: nat;};
+   BadFee: record {expected_fee: nat;};
+   CreatedInFuture: record {ledger_time: Timestamp__1;};
+   Duplicate: record {duplicate_of: nat;};
+   GenericError: record {
+                   error_code: nat;
+                   message: text;
+                 };
+   InsufficientFunds: record {balance: nat;};
+   TemporarilyUnavailable;
+   TooOld;
+ };
+type TransferArgs = 
+ record {
+   amount: nat;
+   created_at_time: opt Timestamp__1;
+   fee: opt nat;
+   from_subaccount: opt Subaccount;
+   memo: opt blob;
+   to: Account;
+ };
+type TransactionWithId = 
+ record {
+   id: BlockIndex;
+   transaction: IndexTransaction;
+ };
+type TopUpStatus = 
+ variant {
+   failed: text;
+   notified: record {cycles: nat;};
+   transferred;
+ };
+type TopUpRecord = 
+ record {
+   blockIndex: nat;
+   icpE8s: nat;
+   lastError: opt text;
+   status: TopUpStatus;
+   timestamp: Timestamp;
+ };
+type Tokens = nat;
+type Timestamp__1 = nat64;
+type Timestamp = int;
+type TechnicalDetails = 
+ record {
+   buyerPriceUsd: nat;
+   canisterInfoFetchedAt: opt int;
+   controllers: opt vec principal;
+   cyclesFeeBps: nat;
+   cyclesReserveAccount: Account;
+   decimals: nat8;
+   deliveryOrder: text;
+   excessPaymentHandling: text;
+   feeAccount: Account;
+   feeAccountBalance: nat;
+   icpLedgerCanisterId: principal;
+   ledgerCanisterId: principal;
+   legacyBlockBoundary: nat;
+   maxRateAgeSeconds: nat;
+   maxSupply: nat;
+   minPurchase: nat;
+   moduleHash: opt text;
+   oracleSources: vec text;
+   refreshPolicy: text;
+   reserveFloorE8s: nat;
+   reserveRule: text;
+   roundingRule: text;
+   smallestUnit: nat;
+   standards: vec text;
+   tokenName: text;
+   tokenPriceUsd: nat;
+   tokenSymbol: text;
+   totalSupply: nat;
+   transferFee: nat;
+ };
+type SupportedStandard = 
+ record {
+   name: text;
+   url: text;
+ };
+type SupportedBlockType = 
+ record {
+   block_type: text;
+   url: text;
+ };
+type Subaccount = blob;
+type SnapshotEntry = 
+ record {
+   account: Account;
+   balance: nat;
+   deliveryAddress: opt Account;
+   kind: HolderKind;
+   needsMigration: bool;
+ };
+type SetFeeResult = 
+ variant {
+   err: text;
+   ok;
+ };
+type SaleStatus = 
+ record {
+   available: nat;
+   buyerPriceUsd: nat;
+   complete: bool;
+   cyclesFeeBps: nat;
+   feeAccountBalance: nat;
+   liveRate: opt nat;
+   maxSupply: nat;
+   minPurchase: nat;
+   mintableRemaining: nat;
+   priceFetchedAt: Timestamp;
+   priceSource: PriceSource;
+   priceUsable: bool;
+   priceUsdE8: nat;
+   priceValidUntil: Timestamp;
+   "reserved": nat;
+   salesPaused: bool;
+   sold: nat;
+   tokenPriceUsd: nat;
+   totalSupply: nat;
+ };
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type ReserveWithdrawal = 
+ record {
+   amountE8s: nat;
+   blockIndex: nat;
+   timestamp: Timestamp;
+ };
+type PurchaseResult = 
+ variant {
+   Err: PurchaseError;
+   Ok: Conversion;
+ };
+type PurchaseErrorCode = 
+ variant {
+   aboveRemaining:
+    record {
+      maximumIcpE8s: nat;
+      maximumTtti: nat;
+      requestedTtti: nat;
+    };
+   acknowledgementRequired;
+   anonymousCaller;
+   approvalMissing: record {allowance: nat;};
+   belowMinimum: record {
+                   minimumTtti: nat;
+                   requestedTtti: nat;
+                 };
+   deliveryFailedRefundFailed;
+   deliveryFailedRefunded;
+   icpLedgerError;
+   insufficientIcp: record {balance: nat;};
+   invalidAmount;
+   notConfigured;
+   priceUnavailable;
+   purchaseInProgress;
+   saleComplete;
+   salesPaused;
+ };
+type PurchaseError = 
+ record {
+   code: PurchaseErrorCode;
+   conversion: opt Conversion;
+   message: text;
+ };
+type PurchaseAcknowledgement = 
+ record {
+   accepted: bool;
+   acceptedAt: opt AcknowledgedAt;
+ };
+type PublicTreasuryInfo = record {icpAccount: Account;};
+type PriceSource = 
+ variant {
+   coinbase;
+   coingecko;
+   none;
+ };
+type PriceResult = 
+ variant {
+   Err: text;
+   Ok: IcpPrice;
+ };
+type PriceError = 
+ record {
+   at: Timestamp;
+   message: text;
+ };
+type MetadataValue = 
+ variant {
+   Blob: blob;
+   Int: int;
+   Nat: nat;
+   Text: text;
+ };
+type ListSubaccountsArgs = 
+ record {
+   owner: principal;
+   start: opt Subaccount;
+ };
+type LegacyBlockInfo = 
+ record {
+   boundaryIndex: nat;
+   currentDecimals: nat8;
+   legacyDecimals: nat8;
+ };
+type IndexTransfer = 
+ record {
+   amount: Tokens;
+   created_at_time: opt nat64;
+   fee: opt Tokens;
+   from: Account;
+   memo: opt blob;
+   spender: opt Account;
+   to: Account;
+ };
+type IndexTransaction = 
+ record {
+   approve: opt IndexApprove;
+   authorized_burn: opt IndexAuthorizedBurn;
+   authorized_mint: opt IndexAuthorizedMint;
+   burn: opt IndexBurn;
+   fee_collector: opt IndexFeeCollector;
+   kind: text;
+   mint: opt IndexMint;
+   timestamp: nat64;
+   transfer: opt IndexTransfer;
+ };
+type IndexStatus = record {num_blocks_synced: BlockIndex;};
+type IndexMint = 
+ record {
+   amount: Tokens;
+   created_at_time: opt nat64;
+   fee: opt nat;
+   memo: opt blob;
+   to: Account;
+ };
+type IndexFeeCollector = 
+ record {
+   caller: opt principal;
+   fee_collector: opt Account;
+   mthd: opt text;
+   ts: opt nat64;
+ };
+type IndexBurn = 
+ record {
+   amount: Tokens;
+   created_at_time: opt nat64;
+   fee: opt nat;
+   from: Account;
+   memo: opt blob;
+   spender: opt Account;
+ };
+type IndexAuthorizedMint = 
+ record {
+   amount: nat;
+   caller: opt principal;
+   created_at_time: opt nat64;
+   mthd: opt text;
+   reason: opt text;
+   to: Account;
+ };
+type IndexAuthorizedBurn = 
+ record {
+   amount: nat;
+   caller: opt principal;
+   created_at_time: opt nat64;
+   from: Account;
+   mthd: opt text;
+   reason: opt text;
+ };
+type IndexApprove = 
+ record {
+   amount: Tokens;
+   created_at_time: opt nat64;
+   expected_allowance: opt Tokens;
+   expires_at: opt nat64;
+   fee: opt Tokens;
+   from: Account;
+   memo: opt blob;
+   spender: Account;
+ };
+type IcpPrice = 
+ record {
+   fetchedAt: Timestamp;
+   lastError: opt PriceError;
+   lastSuccessAt: opt Timestamp;
+   source: PriceSource;
+   usable: bool;
+   usdE8: nat;
+   validUntil: Timestamp;
+ };
+type HttpRequestResult = 
+ record {
+   body: blob;
+   headers: vec HttpHeader;
+   status: nat;
+ };
+type HttpHeader = 
+ record {
+   name: text;
+   value: text;
+ };
+type HolderKind = 
+ variant {
+   feeCollector;
+   holder;
+ };
+type GetTransactionsResult = 
+ variant {
+   Err: GetTransactionsErr;
+   Ok: GetTransactions;
+ };
+type GetTransactionsErr = record {message: text;};
+type GetTransactions = 
+ record {
+   balance: Tokens;
+   oldest_tx_id: opt BlockIndex;
+   transactions: vec TransactionWithId;
+ };
+type GetBlocksResult = 
+ record {
+   archived_blocks:
+    vec
+     record {
+       args: vec GetBlocksArgs;
+       callback: func (vec GetBlocksArgs) -> (GetBlocksResult) query;
+     };
+   blocks: vec Block;
+   log_length: nat;
+ };
+type GetBlocksArgs = 
+ record {
+   length: nat;
+   start: nat;
+ };
+type GetArchivesArgs = record {from: opt principal;};
+type GetAccountTransactionsArgs = 
+ record {
+   account: Account;
+   max_results: nat;
+   start: opt BlockIndex;
+ };
+type ForwardStatus = 
+ variant {
+   failed: text;
+   forwarded: nat;
+   notRequired;
+   pending;
+ };
+type FeeCollectorInfo = 
+ record {
+   account: Account;
+   balance: nat;
+ };
+type FeeBounds = 
+ record {
+   max: nat;
+   min: nat;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type DeliveryAddressResult = 
+ variant {
+   Err: DeliveryAddressError;
+   Ok: Account;
+ };
+type DeliveryAddressErrorCode = 
+ variant {
+   accountIdentifier;
+   anonymousCaller;
+   anonymousPrincipal;
+   "empty";
+   invalidPrincipal;
+ };
+type DeliveryAddressError = 
+ record {
+   code: DeliveryAddressErrorCode;
+   message: text;
+ };
+type DataCertificate = 
+ record {
+   certificate: blob;
+   hash_tree: blob;
+ };
+type CyclesStatus = 
+ record {
+   cyclesBalance: nat;
+   lastTopUp: opt TopUpRecord;
+   reserveAccount: Account;
+   reserveBalanceE8s: nat;
+   reserveFloorE8s: nat;
+   topUpThreshold: nat;
+   withdrawableExcessE8s: nat;
+   withdrawals: vec ReserveWithdrawal;
+ };
+type ConversionStatus = 
+ variant {
+   completed;
+   failed;
+   refundFailed;
+   refunded;
+ };
+type Conversion = 
+ record {
+   depositor: principal;
+   forward: ForwardStatus;
+   fromCollector: nat;
+   icpAmount: nat;
+   id: nat;
+   message: opt text;
+   minted: nat;
+   priceUsdE8: nat;
+   recipient: Account;
+   status: ConversionStatus;
+   timestamp: Timestamp__1;
+   tttiAmount: nat;
+   usedFallback: bool;
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value__2;
+ };
+type BlockIndex = nat;
+type Block = 
+ record {
+   block: Value__1;
+   id: nat;
+ };
+type BalanceSnapshot = 
+ record {
+   decimals: nat8;
+   exportedAt: Timestamp__1;
+   holders: vec SnapshotEntry;
+   totalSupply: nat;
+ };
+type ArchiveInfo = 
+ record {
+   canister_id: principal;
+   end: nat;
+   start: nat;
+ };
+type ApproveResult = 
+ variant {
+   Err: ApproveError;
+   Ok: nat;
+ };
+type ApproveError = 
+ variant {
+   AllowanceChanged: record {current_allowance: nat;};
+   BadFee: record {expected_fee: nat;};
+   CreatedInFuture: record {ledger_time: Timestamp__1;};
+   Duplicate: record {duplicate_of: nat;};
+   Expired: record {ledger_time: Timestamp__1;};
+   ExpiredFrom: record {ledger_time: Timestamp__1;};
+   GenericError: record {
+                   error_code: nat;
+                   message: text;
+                 };
+   InsufficientFunds: record {balance: nat;};
+   TemporarilyUnavailable;
+   TooOld;
+ };
+type ApproveArgs = 
+ record {
+   amount: nat;
+   created_at_time: opt Timestamp__1;
+   expected_allowance: opt nat;
+   expires_at: opt Timestamp__1;
+   fee: opt nat;
+   from_subaccount: opt Subaccount;
+   memo: opt blob;
+   spender: Account;
+ };
+type AllowanceArgs = 
+ record {
+   account: Account;
+   spender: Account;
+ };
+type Allowance = 
+ record {
+   allowance: nat;
+   expires_at: opt Timestamp__1;
+ };
+type AcknowledgementError = variant {anonymousCaller;};
+type AcknowledgedAt = int;
+type Account = 
+ record {
+   owner: principal;
+   subaccount: opt Subaccount;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  acceptPurchaseAcknowledgements: () ->
+   (variant {
+      err: AcknowledgementError;
+      ok: PurchaseAcknowledgement;
+    });
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  clearDeliveryAddress: () -> (bool);
+  convertDeposit: (recipient: opt Account, icpAmount: nat) ->
+   (PurchaseResult);
+  execute: (qJson: text) -> (Result) query;
+  exportBalanceSnapshot: () -> (BalanceSnapshot) query;
+  getApiDoc: () -> (text) query;
+  getBurnAccount: () -> (Account) query;
+  getCallerUserRole: () -> (UserRole) query;
+  getCanisterPrincipal: () -> (principal) query;
+  getConversions: () -> (vec Conversion) query;
+  getCyclesStatus: () -> (CyclesStatus) query;
+  getDeliveryAddress: () -> (opt Account) query;
+  getFeeCollector: () -> (FeeCollectorInfo) query;
+  getIcpPrice: () -> (IcpPrice) query;
+  getLegacyBlockInfo: () -> (LegacyBlockInfo) query;
+  getMyPurchaseAcknowledgement: () -> (PurchaseAcknowledgement) query;
+  getPublicTreasuryInfo: () -> (opt PublicTreasuryInfo) query;
+  getSaleStatus: () -> (SaleStatus) query;
+  getTechnicalDetails: () -> (TechnicalDetails) query;
+  getTreasuryConfig: () -> (opt TreasuryConfig) query;
+  get_account_transactions: (args: GetAccountTransactionsArgs) ->
+   (GetTransactionsResult) query;
+  get_fee: () -> (nat) query;
+  get_fee_bounds: () -> (FeeBounds) query;
+  get_max_supply: () -> (nat) query;
+  icrc10_supported_standards: () -> (vec SupportedStandard) query;
+  icrc1_balance_of: (account: Account) -> (nat) query;
+  icrc1_decimals: () -> (nat8) query;
+  icrc1_fee: () -> (nat) query;
+  icrc1_metadata: () -> (vec record {
+                               text;
+                               MetadataValue;
+                             }) query;
+  icrc1_minting_account: () -> (opt Account) query;
+  icrc1_name: () -> (text) query;
+  icrc1_supported_standards: () -> (vec SupportedStandard) query;
+  icrc1_symbol: () -> (text) query;
+  icrc1_total_supply: () -> (nat) query;
+  icrc1_transfer: (args: TransferArgs) -> (TransferResult);
+  icrc2_allowance: (args: AllowanceArgs) -> (Allowance) query;
+  icrc2_approve: (args: ApproveArgs) -> (ApproveResult);
+  icrc2_transfer_from: (args: TransferFromArgs) -> (TransferFromResult);
+  icrc3_get_archives: (args: GetArchivesArgs) -> (vec ArchiveInfo) query;
+  icrc3_get_blocks: (args: vec GetBlocksArgs) -> (GetBlocksResult) query;
+  icrc3_get_tip_certificate: () -> (opt DataCertificate) query;
+  icrc3_supported_block_types: () -> (vec SupportedBlockType) query;
+  isCallerAdmin: () -> (bool) query;
+  ledger_id: () -> (principal) query;
+  list_subaccounts: (args: ListSubaccountsArgs) -> (vec Subaccount) query;
+  refreshIcpPrice: () -> (PriceResult);
+  schema: () -> (text) query;
+  setDeliveryAddress: (principalText: text) -> (DeliveryAddressResult);
+  setSalesPaused: (paused: bool) -> ();
+  setTreasuryConfig: (config: TreasuryConfig) -> (TreasuryConfigResult);
+  set_fee: (newFee: nat) -> (SetFeeResult);
+  status: () -> (IndexStatus) query;
+  transform: (input: TransformationInput) -> (TransformationOutput) query;
+  withdrawReserveExcess: (amount: nat) -> (WithdrawReserveResult);
+}

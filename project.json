@@ -1,0 +1,21 @@
+{
+  "overview": "A test token sale site for TTTI-T, a one-token live test of the future 10,000-token TTTI, with buying, transfers, ledger history and a white paper aligned with the contract code.",
+  "features": [
+    "Buy TTTI-T with ICP at the hourly rate",
+    "Send TTTI-T to other accounts; transfers to the contract address are refused",
+    "Tokens cannot be burned; collected transfer fees are issued again against ICP",
+    "Ledger history including records from earlier test versions",
+    "Technical details with the real controllers and module hash",
+    "Corrected white paper with the original kept as an archive",
+    "FAQ including how purchase and transfer data is recorded"
+  ],
+  "category": "token-sale",
+  "tags": [
+    "crypto",
+    "token",
+    "icrc",
+    "ledger",
+    "internet-computer"
+  ],
+  "last_updated": "2026-10-21T21:22:07.620Z"
+}

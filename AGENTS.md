@@ -1,0 +1,157 @@
+# Project Guidance
+
+## User Preferences
+
+- Keep the English interface spacious and restrained, with gold as an accent.
+- Use verified official standards imagery where available.
+- Use verified current app figures in the corrected white paper and preserve the original separately.
+- Keep historical account and transaction data intact.
+- Flat token icon for header, footer and token/exchange menus; full-detail emblem for hero and showcase spots.
+- Built-in wallet is the promoted default path; Plug is highlighted in colour among wallets to create.
+- Abstract identity and blockchain as much as possible; keep funnel text minimal.
+- The purchase funnel is a guided setup flow (wallet? then ICP?) shown at first sign-in and relaunchable from the menu.
+- Onramper is the only ICP purchase provider in the funnel.
+- Open the public Onramper buy page https://onramper.com/buy.
+- The footer carries a neutral copyright line with no third-party build credit.
+- Trust badges stay low-key and never compete with the hero Buy TTTI-T button; white badge on dark backgrounds, black on light.
+- Do not name the creator
+- State facts only; no promotional or value-suggesting wording
+- Transfer fee adjustable only in the test (TTTI-T) version, not in the real version
+- Six purchase acknowledgements are asked only once, at the account's first purchase
+- Present TTTI as a perfect instrument without denigrating it; no profit, scarcity-as-value or price-rise promises
+- Amounts accept both '.' and ',' as the decimal separator
+- Ne toucher à aucun solde ni bloc existant
+- Backend limited to the contract's essentials
+- Withdrawals of reserve excess go only to the configured treasury account
+- The 2 ICP floor always stays available for cycles
+- The TTTI-T transfer-fee collector account stays non-withdrawable; only the ICP cycles reserve excess above the floor can be moved, and only to the treasury
+- Ne supprimer rien d'autre que ce qui est explicitement listé
+- Ne pas toucher aux textes déjà mis à jour pour le taux horaire et la réserve de cycles
+- Ne modifier aucun solde ni bloc existant
+- Phrases du site et du whitepaper reprises mot pour mot telles que fournies
+- TTTI is the future version (10,000 max); TTTI-T is the live test (1 token max); ledger values are shown as TTTI-T
+- Tokens cannot be burned; transfers to the contract address are refused
+
+## Accepted Requirements
+
+- « Créer un wallet » propose Plug en premier, mis en avant par une couleur distinctive
+- L'adresse du wallet interne se copie au clic
+- Réduction du texte explicatif au minimum
+- Flow de configuration à la première connexion, reconfigurable depuis le menu
+- Étape 1 : avez-vous un wallet ICP ? Oui / Non
+- Étape 2 Non : utiliser le wallet interne ou en créer un ; Oui : connecter son wallet ICP ou utiliser le wallet interne
+- Retour dans l'app puis achat de TTTI-T
+- Un seul clic sur « Acheter de l'ICP » copie l'adresse et ouvre Onramper (seul fournisseur) via https://onramper.com/buy
+- Étape 3 : avez-vous de l'ICP ? Oui : transfert ; Non : acheter de l'ICP ici via Onramper
+- Remove the word presale everywhere; new title and meta description as given
+- Rename ledger metadata to name TTTI-T and symbol TTTI-T; remove on-page TTTI-P explanations
+- Explain the Exchange page and relabel or remove it according to who operates it
+- Rewrite the narrative: Immortals as adversary, TTTI the lazy money, THAT the three hundred; remove the listed phrases and cards
+- Remove price-rise, scarcity, early-advantage and limited-supply wording; state only the listed facts
+- Whitepaper opens automatically on the first buy; after that no need
+- TTTI-T section with the stated terms
+- Creator disclosures as stated, creator unnamed; creator does not list TTTI on any other exchange
+- Footer without 'not an investment, a security'; keep no returns, final purchases, afford to lose
+- Only two Buy TTTI-T buttons (header and end of page); no sticky bottom bar
+- Remove the adjustable seller margin; small fixed fee to pay for the canister's own cycles, with an estimate of the needed margin
+- No fallback rate; refuse purchase when the rate is stale
+- No one, admin included, can mint tokens outside the buy-to-mint logic
+- Collected TTTI transfer fees are reissued only at the end, after fresh minting reaches the cap
+- Admin cannot freeze transfers; transfer fee change only in the test version
+- Fixed 1% cycles fee confirmed by the user
+- Price 10,000 USD per TTTI plus fixed 1% fee, minimum 1.01 USD
+- Six exact-sentence checkboxes required only once, at the first purchase
+- Only two Buy TTTI-T buttons (header and end of page); no sticky bar; Buy not in menus
+- Admin: remove mint, fallback-rate and presale controls; fixed order; fee account not withdrawable; transfer fee adjustable in beta only
+- Remove unused freeze UI on the Transfer page
+- Backend limited to the contract's essentials
+- The TTTI-T token canister also acts as its own ICRC index canister (index-ng interface) built from the full history, without changing balances
+- Technical details show the index canister ID
+- Number inputs accept '.' and ',' as the decimal separator
+- Choosing the internal wallet automatically prefills the delivery address with the user's principal
+- TOKEN_MAX_SUPPLY = 1 TTTI-T, reflété dans max_supply, getSaleStatus, getTechnicalDetails et getApiDoc
+- Un seul achat convertDeposit en cours par principal ; refus immédiat avec un nouveau code d'erreur sans appel externe ; verrou libéré sur toutes les sorties
+- icrc2_approve ICP avec expires_at = maintenant + 15 minutes
+- Suppression de getTokenMetadata, getBalance, listTokens, prepareTransfer et getCallerIcpBalance ; le frontend lit les ledgers directement et construit les arguments de transfert
+- Aucun solde ni bloc existant modifié
+- ICP/USD rate set once an hour by a canister timer; no price call during a purchase
+- Coinbase first, then CoinGecko; transform keeps only the price rounded to 0.001 USD
+- Stored rate { usdE8; source; fetchedAt; validUntil = fetchedAt + 1 h }
+- Retry every 5 minutes if all sources fail; a rate is never used beyond validUntil + 5 minutes
+- Timer re-armed on every install and upgrade
+- convertDeposit uses the stored rate only; absent or expired rate → #priceUnavailable before any operation, no ICP taken; no fallback rate, no margin
+- refreshIcpPrice admin-only and allowed only when the rate is expired or absent
+- Admin shows the rate source in force, the last fetch error (exact text and date) and the last success date
+- Buy page: 'Rate for this hour: 1 ICP = X USD (source) · valid until HH:MM'; 'Refreshed at purchase' removed
+- refreshPolicy, oracleSources, corrected whitepaper and FAQ carry the hourly-rate text
+- The 1% fee share of each delivered purchase goes to a dedicated published CYCLES_RESERVE ICP subaccount; the rest goes to the treasury
+- RESERVE_FLOOR_E8S = 2 ICP always kept for cycles; the excess above it is withdrawable
+- 6-hour timer that tops up the canister's cycles via the CMC (transfer with TPUP memo, block_index saved before notify_top_up, notify retried without a second transfer) when under 3 T cycles
+- The top-up may use reserve funds below the floor
+- Admin-only withdrawReserveExcess, capped at reserve − floor − ICP fee, to the treasury account only, refused without a ledger call if over the cap; shared lock with the top-up; each withdrawal logged
+- Public getCyclesStatus query with cycles, threshold, reserve, floor, excess, last top-up and withdrawal history
+- Timers re-armed on every install and upgrade
+- Admin card showing the reserve, the withdrawable excess and a withdraw button
+- Given fee text; whitepaper and Technical details carry the exact rule and the reserve subaccount
+- Suppression des profils (getCallerUserProfile, saveCallerUserProfile, profileState, ProfileSetup.tsx, hooks)
+- Suppression de getMySetupStatus, setMySetupStatus et setupStatuses ; « flow déjà vu » gardé dans localStorage (try/catch)
+- Suppression de getOriginalWhitePaper, publishOriginalWhitePaper, documentState et MixinObjectStorage ; lien direct vers /assets/ttti-white-paper-original.docx ; @caffeineai/object-storage retiré
+- Suppression de mixins/oql-api.mo
+- Suppression du code mort : access-control-api.mo, shims @deprecated, priceMovedMessage, TreasuryState, mocks obsolètes
+- Suppression des deux captures d'écran Screenshot_20251015
+- Migration qui jette l'état supprimé sans toucher au ledger, aux conversions, aux adresses de livraison, aux accusés d'achat, au taux stocké ni à la réserve de cycles
+- getApiDoc mis à jour avec l'interface finale
+- Total supply et soldes identiques avant et après
+- Suppression de l'endpoint burn et de IcrcLib.burn
+- Transferts icrc1/icrc2 vers le compte de mint refusés par un GenericError dédié, sans débit
+- mintableRemaining = max(0, TOKEN_MAX_SUPPLY − totalSupply) ; totalMinted supprimé par migration
+- Frais de transfert revendus contre de l'ICP comme avant (mint d'abord, puis compte de frais)
+- Décodage des anciens blocs 1burn gardé (icrc3_supported_block_types, index, History)
+- Toute UI et tout message liés au burn retirés du frontend
+- TOKEN_MAX_SUPPLY reste à 100_000_000 (1 TTTI-T)
+- Distinction TTTI (futur, 10 000 au maximum) / TTTI-T (test, 1 au maximum) ; valeurs du ledger présentées en TTTI-T
+- FAQ, Test release, whitepaper corrigé et barre de progression (total supply sur 1 TTTI-T) concordants
+- Nouvelle phrase sur le plafond et le non-burn, pour TTTI et TTTI-T
+- « Tokens cannot be burned. Transfers to the contract's own address are refused. »
+- Contrôleurs et module hash lus via canister_info (timer quotidien et après chaque mise à jour, cache), exposés dans getTechnicalDetails et affichés dans Technical details
+- Phrase sur l'upgrade par les contrôleurs ajoutée au whitepaper corrigé
+- Whitepaper original archivé avec l'avertissement
+- Textes de l'historique du ledger remplacés, avec N = legacyBlockBoundary lu du canister
+- « ICP beyond the cost of what is delivered is never taken. »
+- « TTTI-T (Test) » → « TTTI-T » partout
+- Texte sur la vie privée dans le whitepaper corrigé et la FAQ
+- Total supply et soldes identiques avant et après le déploiement
+
+## Verified Commands
+
+- **typecheck**: `pnpm typecheck`
+- **fix**: `pnpm fix`
+- **build**: `pnpm build`
+
+## Learnings
+
+- lib/token.ts parseUnits accepts ',' as the decimal separator (converted to '.' when no '.' is present); DeliveryAddressCard prefills and auto-saves the Plug or non-anonymous Internet Identity principal; TokenInfo shows an 'Index canister' row equal to the ledger ID.
+- TOKEN_MAX_SUPPLY is 100_000_000 (1 TTTI-T) in lib/icrc.mo; LedgerState has var totalMinted (migration 20261022_000000 sets it to old totalSupply), incremented only in deliverMintFirst; mintableRemaining = max(0, cap - totalMinted), burns touch totalSupply only.
+- convertDeposit lock: transient Set purchasesInFlight in mixins/treasury-api.mo checked before any await, returns #purchaseInProgress; try/finally releases on every exit.
+- Removed endpoints: getTokenMetadata, getBalance, listTokens, prepareTransfer (wallet mixin/lib/types deleted) and getCallerIcpBalance; frontend lib/tokenRegistry.ts holds TokenDescriptor, the token registry, withMetadata and buildTransferArgs, and hooks/useWallet.ts queries ledgers directly (useWalletBalance returns bigint).
+- lib/icpLedger.ts buildApproveArgs sets expires_at = now + 15 minutes for both Internet Identity and Plug approvals.
+- Balance cards show an unavailable state with retry when ledger queries fail (failureCount > 0); visual QA mock does not cover external ledger canisters.
+- ICP/USD rate is set by a canister timer in lib/oracle.mo (startTimer<system> called from the main.mo actor body on every install/upgrade: immediate setTimer plus 5-minute recurringTimer that fetches when no rate exists or under 5 minutes of validity remain); Coinbase then CoinGecko; transform returns only the price as canonical 'W.FFF' text.
+- OracleStore is { var usdE8; var source; var fetchedAt; var validUntil; var lastError : ?PriceError; var lastSuccessAt } (migration 20261023_000000); IcpPrice exposes usable, fetchedAt, validUntil, lastError, lastSuccessAt; SaleStatus has priceUsdE8, priceSource, priceFetchedAt, priceValidUntil, priceUsable.
+- SaleLib.purchase uses OracleLib.usableRate only (no outcall) and refuses #priceUnavailable before any ICP ledger call; refreshIcpPrice is refused while the rate is usable; transform query lives in main.mo.
+- hooks/useQueries.ts exports isSalePriceUsable, deprecated isSalePriceStale alias and formatValidUntil; AdminPage oracle card disables refresh while IcpPrice.usable; ExchangePage shows 'Rate for this hour' line.
+- is forbidden on this platform, so the NNS exchange rate canister cannot be used as a rate source
+- Cycles reserve lives in lib/cycles-reserve.mo, types/cycles-reserve.mo and mixins/cycles-reserve-api.mo (getCyclesStatus public, withdrawReserveExcess admin); migration 20261024_000000 adds the cyclesReserve store; CYCLES_RESERVE_SUBACCOUNT is the 32-byte text blob 'CYCLES-RESERVE-TTTI-T-0000000001'.
+- Reserve share per conversion is in CyclesReserveStore.shares; recordShare/claimFailedShare set #pending synchronously and transferShare sends only while that claim holds; retryFailedForwards uses a forwardBase closure so only the treasury share is re-sent.
+- CMC top-up: icrc1_transfer from the reserve to CMC with subaccount [principal length, principal bytes, zero padding] and memo TPUP 1347768404 as 8 little-endian bytes; lastTopUp #transferred is saved before notify_top_up; lost-reply transfers stay in transient ReserveLock.unconfirmedTopUp and are resent with the same created_at_time.
+- Frontend: hooks useCyclesStatus, useWithdrawReserveExcess and withdrawReserveMessage in hooks/useQueries.ts; CYCLES_FEE_TEXT, RESERVE_FLOOR_E8S, formatIcpE8s in lib/token.ts; components/admin/CyclesReserveCard.tsx beside the unchanged Fee Account card; TokenInfo has a CyclesReserve block (token.cycles_reserve.panel).
+- The white paper route is /white-paper; Technical details on the landing page is collapsed by default.
+- In Motoko, calling a plain local async function runs its body as a separate message; set guard state in the caller before awaiting, or use async*.
+- Backend trimmed to core: profiles, setup status, stored original white paper, MixinObjectStorage and oql-api.mo removed; main.mo keeps include Expose({ entities = [] }) because the host requires schema/execute; migration 20261025_000000 drops profileState, documentState, setupStatuses.
+- The frontend keeps @caffeineai/object-storage as a dependency because the generated backend.ts imports ExternalBlob and core-infrastructure needs it as a peer dependency.
+- Setup flow seen flag lives in localStorage key ttti.setupFlow.<principal> (seen, completed or skipped) via hooks/useSetupStatus.ts with try/catch; SetupStatus/SetupOutcome types are local to the frontend.
+- WhitePaperPage original edition links directly to /assets/ttti-white-paper-original.docx ('Download exact original DOCX').
+- Burn removed: no burn endpoint or IcrcLib.burn; icrc1_transfer/icrc2_transfer_from to the minting account return GenericError code 8 'Tokens cannot be burned; transfers to the contract address are refused.' before any debit, fee, dedup, allowance change or block; getBurnAccount kept as the minting-account lookup used by TransferPage (CONTRACT_ADDRESS_REFUSED).
+- mintableRemaining = max(0, TOKEN_MAX_SUPPLY - totalSupply); totalMinted dropped by migration 20261026_000000, which also adds the canisterInfo store; legacy 1burn decoding stays in lib/icrc.mo, lib/index.mo, lib/icrc3Blocks.ts and HistoryPage.
+- lib/canister-info.mo and types/canister-info.mo cache controllers, module hash (lowercase hex), fetchedAt and lastError from aaaaa-aa canister_info; refresh is async*, started from main.mo actor body (immediate setTimer plus 86_400 s recurringTimer); TechnicalDetails has controllers, moduleHash, canisterInfoFetchedAt, legacyBlockBoundary.
+- Progress bars in PresaleSection and PresaleProgress use totalSupply / maxSupply; TokenInfo shows Controllers and Build hash from getTechnicalDetails ('Not yet read' until cached); WhitePaperPage reads N from getTechnicalDetails.legacyBlockBoundary with getLegacyBlockInfo as fallback; /exchange redirects to /buy.
